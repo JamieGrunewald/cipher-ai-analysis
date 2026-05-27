@@ -22,10 +22,11 @@ The cipher analysis module originated as a live demo for the CypherCon 9 talk **
 ```
 cipher-ai-analysis/
 ├── cipher_analysis/
-│   ├── cyphercon_demo.py     # Live demo: break a Vigenère-encrypted WarGames quote
-│   ├── words.txt             # English word list for plaintext scoring
-│   └── sample_output.txt     # Reference output from a clean run
-├── ai_fingerprinting/        # Coming soon
+│   ├── cyphercon_demo.py               # Live demo: break a Vigenère-encrypted WarGames quote
+│   ├── words.txt                       # English word list for plaintext scoring
+│   ├── sample_output.txt               # Reference output from a clean run
+│   └── BreakingCiphers_Cyphercon9.pdf  # CypherCon 9 slide deck
+├── ai_fingerprinting/                  # Coming soon
 └── README.md
 ```
 
@@ -40,7 +41,7 @@ A complete Vigenère cipher break executed in seven steps:
 | Step | Technique | Purpose |
 |------|-----------|---------|
 | 1 | Ciphertext display | Establish the problem |
-| 2 | IOC + Chi-Square | Statistical recon — identify cipher type |
+| 2 | IOC + Chi-Square | Statistical reconb identify cipher type |
 | 3 | IOC column sweep | Determine key length |
 | 4 | Per-column frequency attack | Recover alphabetic key characters |
 | 5 | Word-list disambiguation | Resolve chi-square near-ties |
@@ -66,6 +67,22 @@ python3 cipher_analysis/cyphercon_demo.py --auto
 ## AI Fingerprinting *(coming soon)*
 
 The same statistical patterns that expose a repeating cipher key also expose authorship signatures in text. The planned module will apply IOC, character frequency distributions, and stylometric scoring to compare text samples and identify AI-generated content.
+
+### Why This Is Hard (And Interesting)
+
+A fair question: if both humans and LLMs write in English, aren't their statistical profiles nearly identical?
+
+Yes — and that's exactly what makes it interesting.
+
+Gross statistics like letter frequency and Index of Coincidence will look nearly identical between human and LLM output. You won't separate them with the same tools that crack a Vigenère cipher. The signal is finer than that.
+
+But LLMs don't sample from natural English — they sample from a learned approximation of it, and that approximation has detectable artifacts:
+
+- **Entropy consistency** — human writing has high local entropy variance (some sentences are predictable, some aren't). LLM output tends to hover in a narrower band.
+- **Token-level patterns** — characteristic preferences at the subword level that don't match human writing distributions, particularly around punctuation, transition phrases, and hedge language.
+- **Perturbation response** — the most promising signal. Slightly perturb a passage and re-score it; LLM output shows a characteristic pull back toward high-probability tokens that human writing doesn't. This is the core idea behind DetectGPT.
+
+The bridge from cipher analysis isn't the specific metrics, it's the mindset: measure structure, probe the system, follow the gradient signal. The tools change. The approach doesn't.
 
 ---
 
