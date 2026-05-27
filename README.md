@@ -72,7 +72,7 @@ The same statistical patterns that expose a repeating cipher key also expose aut
 
 A fair question: if both humans and LLMs write in English, aren't their statistical profiles nearly identical?
 
-Yes — and that's exactly what makes it interesting.
+Yes. That's exactly what makes it interesting.
 
 Gross statistics like letter frequency and Index of Coincidence will look nearly identical between human and LLM output. You won't separate them with the same tools that crack a Vigenère cipher. The signal is finer than that.
 
